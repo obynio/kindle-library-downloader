@@ -115,8 +115,7 @@ const downloadBook = async (index) => {
   if (!option) {
     log(`Skipping "${title}," probably because it's Kindle Unlimited`);
     document.querySelector(".body-inner").click(); // click outside the dropdown to close it
-    //await countdown(1);
-    return;
+    return false;
   }
   option.click();
   log("Selecting first supported device");
@@ -153,6 +152,7 @@ const downloadBook = async (index) => {
   }
   log("Waiting before moving on so Amazon doesn't get mad...");
   await countdown(DRY_RUN ? 0 : DELAY_BETWEEN_BOOKS_SECONDS);
+  return true;
 };
 
 const downloadCurrentPage = async () => {
@@ -164,8 +164,10 @@ const downloadCurrentPage = async () => {
   let count = 0;
   for (const bookIndex of [...Array(getTitleButtons().length).keys()]) {
     log(`Downloading book ${count + 1} on this page`);
-    await downloadBook(bookIndex);
-    count += 1;
+    const valid = await downloadBook(bookIndex);
+    if (valid) {
+      count += 1;
+    }
   }
   return count;
 };
