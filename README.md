@@ -15,6 +15,7 @@
 - Make sure you're on the first page of results
 - Click "Download All" near the top of the page
 - Wait for it to finish. It takes ~10 seconds per book, so it can take a while. It should show a pop-up when it's done.
+- IMPORTANT: Chrome will probably show a pop up that says something like "Are you okay with this site downloading multiple files?" When it does, click "Allow," refresh the page, and restart the download process. It shouldn't pop up again.
 
 ## How do I stop it once it's started?
 
