@@ -69,11 +69,16 @@ const countdown = async (numSecs) => {
     const intervalId = setInterval(() => {
       const button = document.querySelector(`#${BUTTON_ID}`);
       if (time <= 0) {
-        button.textContent = "Download All";
+        if (button) {
+          button.textContent = "Download All";
+        }
         clearInterval(intervalId);
         resolve();
       }
-      button.textContent = `Waiting (${time})`;
+      if (button) {
+        button.textContent = `Waiting (${time})`;
+      }
+      log(time);
       time -= 1;
     }, 1000);
   });
@@ -110,7 +115,7 @@ const downloadBook = async (index) => {
   if (!option) {
     log(`Skipping "${title}," probably because it's Kindle Unlimited`);
     document.querySelector(".body-inner").click(); // click outside the dropdown to close it
-    await countdown(1);
+    //await countdown(1);
     return;
   }
   option.click();
@@ -158,7 +163,6 @@ const downloadCurrentPage = async () => {
   }
   let count = 0;
   for (const bookIndex of [...Array(getTitleButtons().length).keys()]) {
-    log("");
     log(`Downloading book ${count + 1} on this page`);
     await downloadBook(bookIndex);
     count += 1;
@@ -181,7 +185,6 @@ const downloadAllPages = async () => {
   log(`Downloading all ${numPages} pages, starting from ${startPageIndex + 1}`);
   let count = 0;
   for (const curPageIndex of [...Array(numPages - startPageIndex).keys()]) {
-    log("");
     const curPage = startPageIndex + curPageIndex + 1;
     log(`Clicking on page selector (index ${curPage})`);
     await waitUntil(() => !!document.querySelector(`#page-${curPage}`));

@@ -30,3 +30,5 @@ If you see one of the Amazon Error pages (with the dogs), something broke and yo
 ## Other Things
 
 - This script does not download books from Kindle Unlimited or that are on loan from a library.
+- If you want to watch the script work, open your browser console and search for LIB_DOWNLOADER
+  - To open your browser console, right-click anywhere on the page, then click "Inspect," then go to the "Console" tab.
