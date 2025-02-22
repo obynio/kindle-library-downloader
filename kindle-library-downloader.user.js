@@ -57,7 +57,7 @@ const waitUntilElement = async (selectorFn, timeout, timeoutMsg) => {
         clearInterval(intervalId);
         const msg = timeoutMsg || "Timeout! Something went wrong :(";
         log(msg);
-        window.alert(msg);
+        // window.alert(msg);
         reject();
       }
       if (!!val) {
@@ -125,14 +125,21 @@ const downloadBook = async (index) => {
   }
   option.click();
   log("Selecting first supported device");
-  const radioButton = await waitUntilElement(
-    () =>
-      document
-        .querySelectorAll("[class*=Dropdown-module_dropdown_container]")
-        [index].querySelector("[class*=RadioButton]"),
-    5000,
-    "Could not select a Kindle. You need a device registered to your account, though this download process won't actually download anything to that device."
-  );
+  let radioButton = undefined;
+  try {
+    radioButton = await waitUntilElement(
+      () =>
+        document
+          .querySelectorAll("[class*=Dropdown-module_dropdown_container]")
+          [index].querySelector("[class*=RadioButton]"),
+      5000,
+      "Could not select a Kindle. You need a device registered to your account, though this download process won't actually download anything to that device."
+    );
+  } catch {}
+  if (!radioButton) {
+    log("Could not download this book, skipping");
+    return false;
+  }
   radioButton.click();
   log("Clicking download");
   const downloadButton = await waitUntilElement(() =>
