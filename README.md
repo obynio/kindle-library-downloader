@@ -6,7 +6,7 @@
 ## How to Use
 
 - Install GreaseMonkey or TamperMonkey in your browser if you don't have it already
-- Click here to install the script: TBD
+- [Click here](https://github.com/Make-Fun-Stuff/kindle-library-downloader/raw/refs/heads/main/kindle-library-downloader.user.js) to install the script
 - Log in to your Amazon account
 - Navigate to the "All Books" page of the "Digital Content" section of your Amazon account. [This link](https://www.amazon.com/hz/mycd/digital-console/contentlist/booksAll/dateDsc) might take you there, but you may need to find the page on your own:
 - Make sure you're on the first page of results

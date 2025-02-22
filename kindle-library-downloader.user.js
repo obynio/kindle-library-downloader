@@ -7,6 +7,7 @@
 // @match        https://www.amazon.com/*/digital-console/contentlist/booksAll/*
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=amazon.com
 // @grant        none
+// @downloadURL  https://github.com/Make-Fun-Stuff/kindle-library-downloader/raw/refs/heads/main/kindle-library-downloader.user.js
 // ==/UserScript==
 
 const TEST_MODE = false; // turn on to download a single book from the current page (for testing)
