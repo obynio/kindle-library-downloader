@@ -5,15 +5,17 @@
 // @description  Download your Kindle library to your computer
 // @author       MakeFunStuff
 // @match        https://www.amazon.com/*/digital-console/contentlist/booksAll/*
+// @match        https://www.amazon.com/*/*/digital-console/contentlist/booksAll/*
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=amazon.com
 // @grant        none
 // @downloadURL  https://github.com/Make-Fun-Stuff/kindle-library-downloader/raw/refs/heads/main/kindle-library-downloader.user.js
+// @updateURL  https://github.com/Make-Fun-Stuff/kindle-library-downloader/raw/refs/heads/main/kindle-library-downloader.user.js
 // ==/UserScript==
 
 const TEST_MODE = false; // turn on to download a single book from the current page (for testing)
 const DRY_RUN = false; // turn on to do everything other than actually download the books
 
-const DELAY_BETWEEN_BOOKS_SECONDS = 30;
+const DELAY_BETWEEN_BOOKS_SECONDS = 10;
 const BUTTON_ID = "download-lib-button";
 
 const log = (msg) => {

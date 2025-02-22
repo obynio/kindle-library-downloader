@@ -2,10 +2,13 @@
 
 - Currently this only works on www.amazon.com, not any regional domains.
 - You must have at least one Kindle device linked to your account (this device is not used in the process of this script, but Amazon won't let you download anything if you don't have a device).
+- I've only tested this in Chrome. It should work in any browser that supports TamperMonkey, but I can't promise anything.
 
 ## How to Use
 
-- Install GreaseMonkey or TamperMonkey in your browser if you don't have it already
+- [Install TamperMonkey](https://chromewebstore.google.com/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo?hl=en) in your browser if you don't have it already
+- If you're using Chrome: turn on Developer Mode if you haven't already (go to chrome://extensions in your browser)
+  - TamperMonkey's link about this: https://www.tampermonkey.net/faq.php#Q209
 - [Click here](https://github.com/Make-Fun-Stuff/kindle-library-downloader/raw/refs/heads/main/kindle-library-downloader.user.js) to install the script
 - Log in to your Amazon account
 - Navigate to the "All Books" page of the "Digital Content" section of your Amazon account. [This link](https://www.amazon.com/hz/mycd/digital-console/contentlist/booksAll/dateDsc) might take you there, but you may need to find the page on your own:
