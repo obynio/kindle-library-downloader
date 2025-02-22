@@ -6,6 +6,8 @@
 // @author       MakeFunStuff
 // @match        https://www.amazon.com/*/digital-console/contentlist/booksAll/*
 // @match        https://www.amazon.com/*/*/digital-console/contentlist/booksAll/*
+// @match        https://www.amazon.co.uk/*/digital-console/contentlist/booksAll/*
+// @match        https://www.amazon.co.uk/*/*/digital-console/contentlist/booksAll/*
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=amazon.com
 // @grant        none
 // @downloadURL  https://github.com/Make-Fun-Stuff/kindle-library-downloader/raw/refs/heads/main/kindle-library-downloader.user.js
