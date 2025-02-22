@@ -79,7 +79,19 @@ const countdown = async (numSecs) => {
   });
 };
 
+const getBookTitle = (index) => {
+  const allTitles = Array.from(
+    document.querySelectorAll(".digital_entity_title")
+  );
+  if (!allTitles || allTitles.length <= index || !allTitles[index]) {
+    return "Unknown title";
+  }
+  return allTitles[index].innerText;
+};
+
 const downloadBook = async (index) => {
+  const title = getBookTitle(index);
+  log(`Downloading ${title}`);
   log('Clicking "More Actions"');
   getTitleButtons()[index].click();
   log("Waiting for dropdown");
@@ -95,6 +107,12 @@ const downloadBook = async (index) => {
       .querySelectorAll("[class*=Dropdown-module_dropdown_container]")
       [index].querySelectorAll("span")
   ).find((_) => _.innerText.includes("Download & transfer"));
+  if (!option) {
+    log(`Skipping "${title}," probably because it's Kindle Unlimited`);
+    document.querySelector(".body-inner").click(); // click outside the dropdown to close it
+    await countdown(1);
+    return;
+  }
   option.click();
   log("Selecting first supported device");
   const radioButton = await waitUntilElement(
@@ -140,6 +158,7 @@ const downloadCurrentPage = async () => {
   }
   let count = 0;
   for (const bookIndex of [...Array(getTitleButtons().length).keys()]) {
+    log("");
     log(`Downloading book ${count + 1} on this page`);
     await downloadBook(bookIndex);
     count += 1;
@@ -162,6 +181,7 @@ const downloadAllPages = async () => {
   log(`Downloading all ${numPages} pages, starting from ${startPageIndex + 1}`);
   let count = 0;
   for (const curPageIndex of [...Array(numPages - startPageIndex).keys()]) {
+    log("");
     const curPage = startPageIndex + curPageIndex + 1;
     log(`Clicking on page selector (index ${curPage})`);
     await waitUntil(() => !!document.querySelector(`#page-${curPage}`));

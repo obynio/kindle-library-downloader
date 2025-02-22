@@ -26,3 +26,7 @@ Refresh the page and it'll stop running.
 ### I got an Amazon Dogs page
 
 If you see one of the Amazon Error pages (with the dogs), something broke and you'll (sadly) have to start over. The script starts on whatever page of results you have selected and continues from there; if you successfully downloaded the first page before it failed, restart on the second, etc.
+
+## Other Things
+
+- This script does not download books from Kindle Unlimited or that are on loan from a library.
