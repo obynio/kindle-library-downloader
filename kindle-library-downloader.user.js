@@ -196,7 +196,7 @@ const downloadAllPages = async () => {
   }
   const startPageIndex = parseInt(getCurrentPageNum()) - 1;
   const pageSelectors = document.querySelectorAll(".pagination .page-item");
-  const numPages = pageSelectors.length;
+  const numPages = parseInt(pageSelectors[pageSelectors.length - 1].text);
   log(`Downloading all ${numPages} pages, starting from ${startPageIndex + 1}`);
   let count = 0;
   for (const curPageIndex of [...Array(numPages - startPageIndex).keys()]) {
