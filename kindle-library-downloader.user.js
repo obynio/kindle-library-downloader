@@ -19,13 +19,23 @@
 // ==/UserScript==
 
 const TEST_MODE = false; // turn on to download a single book from the current page (for testing)
-const DRY_RUN = false; // turn on to do everything other than actually download the books
+const DRY_RUN = true; // turn on to do everything other than actually download the books
 
 const DELAY_BETWEEN_BOOKS_SECONDS = 10;
 const BUTTON_ID = "download-lib-button";
+const INPUT_ID = "download-lib-input";
+const COOKIE_NAME = "downloader-device-name";
 
 const log = (msg) => {
   console.log(`[LIB_DOWNLOADER] ${msg}`);
+};
+
+const getCookieValue = (name) => {
+  const cookie =
+    document.cookie.match("(^|;)\\s*" + name + "\\s*=\\s*([^;]+)")?.pop() ||
+    undefined;
+  log(`Cookie: ${cookie}`);
+  return cookie;
 };
 
 const getTitleButtons = () => {
@@ -100,6 +110,18 @@ const getBookTitle = (index) => {
   return allTitles[index].innerText;
 };
 
+const getInputValue = () => {
+  const input = document.querySelector(`#${INPUT_ID}`);
+  if (input && input.value && input.value.trim().length) {
+    return input.value.trim().toLowerCase();
+  }
+  const cookie = getCookieValue(COOKIE_NAME);
+  if (cookie && cookie.trim().length) {
+    return cookie.trim().toLowerCase();
+  }
+  return undefined;
+};
+
 const downloadBook = async (index) => {
   const title = getBookTitle(index);
   log(`Downloading ${title}`);
@@ -124,18 +146,45 @@ const downloadBook = async (index) => {
     return false;
   }
   option.click();
-  log("Selecting first supported device");
+
+  const inputVal = getInputValue();
+  if (inputVal) {
+    log(`[Input] Looking for device with a name containing: ${inputVal}`);
+  } else {
+    log(`[Input] No input value provided, selecting first device`);
+  }
   let radioButton = undefined;
   try {
-    radioButton = await waitUntilElement(
-      () =>
-        document
-          .querySelectorAll("[class*=Dropdown-module_dropdown_container]")
-          [index].querySelector("[class*=RadioButton]"),
-      5000,
-      "Could not select a Kindle. You need a device registered to your account, though this download process won't actually download anything to that device."
-    );
-  } catch {}
+    if (!inputVal) {
+      radioButton = await waitUntilElement(
+        () =>
+          document
+            .querySelectorAll("[class*=Dropdown-module_dropdown_container]")
+            [index].querySelector("[class*=RadioButton]"),
+        5000,
+        "Could not select a Kindle. You need a device registered to your account, though this download process won't actually download anything to that device."
+      );
+    } else {
+      const allOpts = Array.from(
+        await waitUntilElement(() =>
+          document
+            .querySelectorAll("[class*=Dropdown-module_dropdown_container]")
+            [index].querySelectorAll(
+              "[class*=ActionList-module_action_list_item]"
+            )
+        )
+      );
+      log(
+        `Found device options: ${allOpts.map((_) => _.innerText).join(", ")}`
+      );
+      const matchingOpt = allOpts.find((_) =>
+        _.innerText.toLowerCase().includes(inputVal)
+      );
+      radioButton = matchingOpt.querySelector("[class*=RadioButton]");
+    }
+  } catch (ex) {
+    log(ex);
+  }
   if (!radioButton) {
     log("Could not download this book, skipping");
     return false;
@@ -220,17 +269,40 @@ const downloadAllPages = async () => {
 };
 
 const setup = () => {
-  log('Adding "Download All" button');
+  log('Adding "Download All" button & input field');
   const container = document.querySelector("#CONTENT_TASK_BAR");
+  // text input
+  const inputContainer = document.createElement("div");
+  inputContainer.style.marginTop = "10px";
+  inputContainer.style.marginBottom = "10px";
+  const input = document.createElement("input");
+  input.type = "text";
+  input.id = INPUT_ID;
+  const cookieVal = getCookieValue(COOKIE_NAME);
+  if (!!cookieVal) {
+    input.value = cookieVal;
+  } else {
+    log("Could not set value from cookie");
+  }
+  input.onchange = (ev) => {
+    document.cookie = `${COOKIE_NAME}=${ev.target.value}`;
+  };
+  // button
   const button = document.createElement("button");
   button.id = BUTTON_ID;
   button.textContent = "Download All";
   button.setAttribute("class", "action_button");
   button.onclick = async () => {
     button.setAttribute("disabled", true);
+    input.setAttribute("disabled", true);
     await downloadAllPages();
   };
   container.appendChild(button);
+  inputContainer.appendChild(
+    document.createTextNode(" Optionally specify device name: ")
+  );
+  inputContainer.appendChild(input);
+  container.appendChild(inputContainer);
 };
 
 (function () {
