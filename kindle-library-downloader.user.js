@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Kindle Library Downloader
 // @namespace    http://tampermonkey.net/
-// @version      2025-02-21
+// @version      2025-02-22
 // @description  Download your Kindle library to your computer
 // @author       MakeFunStuff
 // @match        https://www.amazon.com/*/digital-console/contentlist/booksAll/*
@@ -303,6 +303,16 @@ const setup = () => {
   );
   inputContainer.appendChild(input);
   container.appendChild(inputContainer);
+  // shameless plug
+  const bmacButton = document.createElement("button");
+  bmacButton.style.border = "none";
+  bmacButton.onclick = () => {
+    log("Thank you!!");
+    window.open("https://www.buymeacoffee.com/MakeFunStuff", "_blank");
+  };
+  bmacButton.innerHTML =
+    '<img width="150px" src="https://www.owlstown.com/assets/icons/bmc-yellow-button-e91f626c5320efe1868dd75673b6edae7d0e2e4f059d40cd3287a7c8536805e6.png" />';
+  container.appendChild(bmacButton);
 };
 
 (function () {
