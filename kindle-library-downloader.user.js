@@ -38,6 +38,12 @@ const getCookieValue = (name) => {
   return cookie;
 };
 
+const clickBackground = () => {
+  Array.from(
+    document.querySelectorAll('[class*="DeviceDialogBox-module_backdrop"]')
+  ).forEach((_) => _.click());
+};
+
 const getTitleButtons = () => {
   return [
     ...document.querySelectorAll('[id="MORE_ACTION:false"]'),
@@ -187,6 +193,7 @@ const downloadBook = async (index) => {
   }
   if (!radioButton) {
     log("Could not download this book, skipping");
+    clickBackground();
     return false;
   }
   radioButton.click();
