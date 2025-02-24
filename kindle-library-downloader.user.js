@@ -11,6 +11,7 @@
 // @match        https://www.amazon.ca/*/digital-console/contentlist/booksAll/*
 // @match        https://www.amazon.ca/*/*/digital-console/contentlist/booksAll/*
 // @match        https://www.amazon.de/*/digital-console/contentlist/booksAll/*
+// @match        https://www.amazon.fr/*/digital-console/contentlist/booksAll/*
 // @match        https://www.amazon.de/*/*/digital-console/contentlist/booksAll/*
 // @match        https://www.amazon.co.jp/*/digital-console/contentlist/booksAll/*
 // @match        https://www.amazon.co.jp/*/*/digital-console/contentlist/booksAll/*
